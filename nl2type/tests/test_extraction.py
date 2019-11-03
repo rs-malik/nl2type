@@ -51,3 +51,15 @@ def test_return_comment_extracted():
     assert len(func['returns']) == 1
     assert len(func['returns'][0]['type']['names']) == 1
     assert func['returns'][0]['type']['names'][0] == 'number'
+
+
+def test_nothing_extracted_from_empty_file():
+    jsdoc_output = extract.extract_from_file("resources/empty.js")
+    func = [out for out in jsdoc_output if extract.is_function_signature(out)]
+    assert len(func) == 0
+
+
+def test_no_return_type_extracted_from_no_jsdoc():
+    jsdoc_output = extract.extract_from_file("resources/without_jsdoc.js")
+    func = [out for out in jsdoc_output if extract.is_function_signature(out)][0]
+    assert 'returns' not in func
