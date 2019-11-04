@@ -21,15 +21,6 @@ def extract_from_dir(dir_path: str = "../files") -> List[Dict]:
     return [sig for sig in jsdoc_output_flat if is_function_signature(sig)]
 
 
-def is_function_signature(jsdoc_output: Dict) -> bool:
-    """
-    Checks to see if the passed jsdoc output is a function signature
-    :param jsdoc_output: the output of the jsdoc tool
-    :return: True, if output is a function signature, False otherwise
-    """
-    return jsdoc_output is not None and "kind" in jsdoc_output and jsdoc_output["kind"] == "function"
-
-
 def extract_from_file(file_path: str) -> Dict:
     """
         Extracts function type signatures from individual JavaScript files by parsing
@@ -40,3 +31,12 @@ def extract_from_file(file_path: str) -> Dict:
     logger.debug("Extracting json from file {}".format(file_path))
     json_str = subprocess.check_output(JSDOC_COMMAND.format(file_path), shell=True)
     return json.loads(json_str)
+
+
+def is_function_signature(jsdoc_output: Dict) -> bool:
+    """
+    Checks to see if the passed jsdoc output is a function signature
+    :param jsdoc_output: the output of the jsdoc tool
+    :return: True, if output is a function signature, False otherwise
+    """
+    return jsdoc_output is not None and "kind" in jsdoc_output and jsdoc_output["kind"] == "function"
