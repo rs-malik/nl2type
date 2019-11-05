@@ -45,7 +45,17 @@ def replace_digits_with_space(sentence: str) -> str:
     return re.sub('[0-9]+', ' ', sentence)
 
 
-def camel_case_tokenize(word: str) -> List[str]:
+def tokenize(sentence):
+    sentence = sentence.replace("_", " ")
+    words = sentence.split(" ")
+    camelcase_tokenized = []
+    for word in words:
+        camelcase_tokenized.extend(_camel_case_tokenize(word))
+    camelcase_tokenized = [x.lower() for x in camelcase_tokenized]
+    return " ".join(camelcase_tokenized)
+
+
+def _camel_case_tokenize(word: str) -> List[str]:
     """
     Example: "getRectangleArea" -> ["get", "Rectangle", "Area"]
     :param word: the word to tokenize

@@ -1,25 +1,18 @@
-import re
-
 import nl2type.nl_utils as nlu
 
 
 def test_camel_case_tokenize():
-    tokens = nlu.camel_case_tokenize("getRectangleArea")
-    assert len(tokens) == 3
-    assert tokens[0] == 'get'
-    assert tokens[1] == 'Rectangle'
-    assert tokens[2] == 'Area'
+    tokenized = nlu.tokenize("getRectangleArea")
+    assert tokenized == "get rectangle area"
 
 
 def test_camel_case_tokenize_empty_string():
-    tokens = nlu.camel_case_tokenize("")
+    tokens = nlu.tokenize("")
     assert len(tokens) == 0
 
 
 def test_camel_case_tokenize_one_token():
-    tokens = nlu.camel_case_tokenize("getrectanglearea")
-    assert len(tokens) == 1
-    assert tokens[0] == 'getrectanglearea'
+    assert nlu.tokenize("getrectanglearea") == "getrectanglearea"
 
 
 def test_lemmatize_empty_string():
