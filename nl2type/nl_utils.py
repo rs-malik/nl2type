@@ -64,7 +64,7 @@ def remove_punctuation_and_linebreaks(sentence: str) -> str:
 
     # we want to get replace full stops not followed by a space with a space.
     # For example object.property --> object property
-    return re.sub('\.(?!\ )', ' ', sentence)
+    return re.sub("[.](?! )", ' ', sentence)
 
 
 def remove_stop_words(sentence : str) -> str:

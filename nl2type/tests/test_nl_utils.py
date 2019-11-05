@@ -1,3 +1,5 @@
+import re
+
 import nl2type.nl_utils as nlu
 
 
@@ -29,3 +31,10 @@ def test_lemmatize():
     lemmatized = nlu.lemmatize_sentence("dogs are running")
     assert lemmatized == "dog be run"
 
+
+def test_remove_periods_no_space():
+    assert nlu.remove_punctuation_and_linebreaks("object.property") == "object property"
+
+
+def test_periods_with_space_not_removed():
+    assert nlu.remove_punctuation_and_linebreaks("object. property") == "object. property"
