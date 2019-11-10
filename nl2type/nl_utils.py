@@ -77,5 +77,5 @@ def remove_punctuation_and_linebreaks(sentence: str) -> str:
     return re.sub("[.](?! )", ' ', sentence)
 
 
-def remove_stop_words(sentence : str) -> str:
+def remove_stop_words(sentence: str) -> str:
     return ' '.join([word for word in sentence.split(' ') if word not in stopwords.words('english')])
