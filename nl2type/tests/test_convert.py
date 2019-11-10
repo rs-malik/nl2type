@@ -13,7 +13,7 @@ def json_data():
 
 def test_params_converted(json_data):
     df = convert.convert_jsdoc_to_df(json_data)
-    assert list(df.columns) == convert.columns
+    assert list(df.columns) == convert.COLUMNS
     assert len(df.index) == 3
     # names
     assert 'first' == df['name'][0]

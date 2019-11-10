@@ -6,7 +6,7 @@ import pandas as pd
 from nl2type import nl_utils as nlu
 
 
-columns = ['params',
+COLUMNS = ['params',
            'return_param_comment',
            'datapoint_type',
            'line_number',
@@ -133,7 +133,7 @@ def _convert_params_data_to_dict(function: Dict, line_num: int, filename: str) -
 
 
 def _init_dict() -> Dict[str, List[str]]:
-    return {k: [] for k in columns}
+    return {k: [] for k in COLUMNS}
 
 
 def _merge_dicts(dict1: Dict[str, List], dict2: Dict[str, List]) -> Dict[str, List]:
