@@ -1,0 +1,39 @@
+[{
+	"comment": "/**\n * Adds two numbers together\n *\n * @param {number} first The First Number\n * @param {number} second The Second Number\n * @returns {number}\n */",
+	"meta": {
+		"range": [147, 203],
+		"filename": "with_jsdoc.js",
+		"lineno": 8,
+		"columnno": 0,
+		"path": "resources/",
+		"code": {
+			"id": "astnode100000002",
+			"name": "add",
+			"type": "FunctionDeclaration",
+			"paramnames": ["first", "second"]
+		}
+	},
+	"description": "Adds two numbers together",
+	"params": [{
+		"type": {
+			"names": ["number"]
+		},
+		"description": "The First Number",
+		"name": "first"
+	}, {
+		"type": {
+			"names": ["number"]
+		},
+		"description": "The Second Number",
+		"name": "second"
+	}],
+	"returns": [{
+		"type": {
+			"names": ["number"]
+		}
+	}],
+	"name": "add",
+	"longname": "add",
+	"kind": "function",
+	"scope": "global"
+}]
