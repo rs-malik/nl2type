@@ -11,20 +11,19 @@ COLUMNS = ['params',
            'datapoint_type',
            'line_number',
            'filename',
-           'type',
            'name',
            'cleaned_name',
            'comment',
            'cleaned_comment']
 
 
-def convert_jsdoc_to_df(func_sigs: Dict) -> pd.DataFrame:
+def convert_func_to_df(func_sigs: Dict) -> pd.DataFrame:
     """
-    Converts function signatures from a jsdoc format to a pandas Dataframe.
+    Converts function signatures from a json format to a pandas Dataframe.
     Also cleans natural language information for the following columns:
     name, comment, return_param_comment, params.
     :param func_sigs: the json for function signatures, as output by the jsdoc tool
-    :return: a data frame with the columns as given by the columns list
+    :return: a data frame with the columns as given by the COLUMNS list
     """
     data = _init_dict()
     for func in func_sigs:
@@ -38,7 +37,6 @@ def convert_jsdoc_to_df(func_sigs: Dict) -> pd.DataFrame:
         data['datapoint_type'].append(0)
         data['line_number'].append(line_num)
         data['filename'].append(filename)
-        data['type'].append(_get_return_type(func))
         data['name'].append(func['name'])
 
         cleaned_name = nlu.lemmatize_sentence \
@@ -48,13 +46,13 @@ def convert_jsdoc_to_df(func_sigs: Dict) -> pd.DataFrame:
                (nlu.replace_digits_with_space(func['name'])))))
 
         data['cleaned_name'].append(cleaned_name)
-        data['comment'] = func['description']
+        data['comment'] = func.get('description', '')
 
         cleaned_comment = nlu.lemmatize_sentence \
             (nlu.remove_punctuation_and_linebreaks
              (nlu.lemmatize_sentence
               (nlu.tokenize
-               (nlu.replace_digits_with_space(func['description'])))))
+               (nlu.replace_digits_with_space(func.get('description', ''))))))
         data['cleaned_comment'].append(cleaned_comment)
 
     return pd.DataFrame.from_dict(data)
@@ -72,14 +70,6 @@ def _get_filename(function: Dict) -> str:
         return os.path.join(function['meta']['path'], function["meta"]["filename"])
     else:
         return ""
-
-
-def _get_return_type(function: Dict) -> str:
-    types = []
-    for return_type in function.get('returns', []):
-        types.extend(return_type['type']['names'])
-
-    return ' '.join('types')
 
 
 def _get_return_param_comment(function: Dict) -> str:
@@ -104,9 +94,6 @@ def _convert_params_data_to_dict(function: Dict, line_num: int, filename: str) -
         params_data.get('datapoint_type').append('1')
         params_data.get('line_number').append(line_num)
         params_data.get('filename').append(filename)
-
-        types = param.get('type', {}).get('names')
-        params_data.get('type').append('|'.join(types))
 
         name = param.get('name', '')
         cleaned_name = nlu.lemmatize_sentence \

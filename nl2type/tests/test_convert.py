@@ -12,7 +12,7 @@ def json_data():
 
 
 def test_params_converted(json_data):
-    df = convert.convert_jsdoc_to_df(json_data)
+    df = convert.convert_func_to_df(json_data)
     assert list(df.columns) == convert.COLUMNS
     assert len(df.index) == 3
     # names
@@ -30,7 +30,7 @@ def test_params_converted(json_data):
 
 
 def test_func_converted(json_data):
-    df = convert.convert_jsdoc_to_df(json_data)
+    df = convert.convert_func_to_df(json_data)
     assert 'add' == df['cleaned_name'][2]
     assert 'add two number together' == df['cleaned_comment'][2]
     assert 'first second' == df['params'][2]

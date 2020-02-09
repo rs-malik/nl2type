@@ -18,10 +18,10 @@ def extract_from_dir(dir_path: str = "../files") -> List[Dict]:
     js_files = [os.path.join(dp, f) for dp, dn, file_names in os.walk(dir_path) for f in file_names]
     jsdoc_output = [extract_from_file(f) for f in js_files]
     jsdoc_output_flat = [out for sublist in jsdoc_output for out in sublist]
-    return [sig for sig in jsdoc_output_flat if is_function_signature(sig)]
+    return [standardize_jdsoc_output(sig) for sig in jsdoc_output_flat if is_function_signature(sig)]
 
 
-def extract_from_file(file_path: str) -> Dict:
+def extract_from_file(file_path: str) -> List[Dict]:
     """
         Extracts function type signatures from individual JavaScript files by parsing
         JSDocs using the npm package JSDoc
@@ -29,8 +29,14 @@ def extract_from_file(file_path: str) -> Dict:
         :return: dict of function type signatures. Does not validate the output of the command
         """
     logger.debug("Extracting json from file {}".format(file_path))
+    func_signatures = []
     json_str = subprocess.check_output(JSDOC_COMMAND.format(file_path), shell=True)
-    return json.loads(json_str)
+    jsdoc_output_dict = json.loads(json_str)
+    for output_dict in jsdoc_output_dict:
+        if is_function_signature(output_dict):
+            func_signatures.append(standardize_jdsoc_output(output_dict))
+
+    return func_signatures
 
 
 def is_function_signature(jsdoc_output: Dict) -> bool:
@@ -40,3 +46,23 @@ def is_function_signature(jsdoc_output: Dict) -> bool:
     :return: True, if output is a function signature, False otherwise
     """
     return jsdoc_output is not None and "kind" in jsdoc_output and jsdoc_output["kind"] == "function"
+
+
+def standardize_jdsoc_output(jsdoc_output: Dict) -> Dict:
+    """
+    Converts the dict output by the jsdoc tool to a standard format.
+    This is required because functions which have a jsdoc are output differently than functions without
+    :param jsdoc_output: the dict output by the jsdoc tool
+    :return: a standard representation of a function
+    """
+
+    if "undocumented" in jsdoc_output and jsdoc_output["undocumented"]:
+        standard_rep = {"description": jsdoc_output["description"], "name": jsdoc_output["name"]}
+        param_names = jsdoc_output["meta"]["code"]["paramnames"]
+        params = []
+        for param_name in param_names:
+            params.append({"name": param_name})
+        standard_rep["params"] = params
+        return standard_rep
+
+    return jsdoc_output
