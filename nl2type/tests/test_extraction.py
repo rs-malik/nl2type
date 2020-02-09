@@ -30,13 +30,6 @@ def test_param_comments_extracted():
     assert param_first['description'] == 'The First Number'
 
 
-def test_return_comment_extracted():
-    func = extract.extract_from_file("resources/with_jsdoc.js")[0]
-    assert len(func['returns']) == 1
-    assert len(func['returns'][0]['type']['names']) == 1
-    assert func['returns'][0]['type']['names'][0] == 'number'
-
-
 def test_nothing_extracted_from_empty_file():
     assert len(extract.extract_from_file("resources/empty.js")) == 0
 

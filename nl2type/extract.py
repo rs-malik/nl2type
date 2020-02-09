@@ -18,7 +18,7 @@ def extract_from_dir(dir_path: str = "../files") -> List[Dict]:
     js_files = [os.path.join(dp, f) for dp, dn, file_names in os.walk(dir_path) for f in file_names]
     jsdoc_output = [extract_from_file(f) for f in js_files]
     jsdoc_output_flat = [out for sublist in jsdoc_output for out in sublist]
-    return [standardize_jdsoc_output(sig) for sig in jsdoc_output_flat if is_function_signature(sig)]
+    return jsdoc_output_flat
 
 
 def extract_from_file(file_path: str) -> List[Dict]:
@@ -56,13 +56,21 @@ def standardize_jdsoc_output(jsdoc_output: Dict) -> Dict:
     :return: a standard representation of a function
     """
 
-    if "undocumented" in jsdoc_output and jsdoc_output["undocumented"]:
-        standard_rep = {"description": jsdoc_output["description"], "name": jsdoc_output["name"]}
-        param_names = jsdoc_output["meta"]["code"]["paramnames"]
-        params = []
-        for param_name in param_names:
-            params.append({"name": param_name})
-        standard_rep["params"] = params
-        return standard_rep
+    # if "undocumented" in jsdoc_output and jsdoc_output["undocumented"]:
+    filename = jsdoc_output["meta"]["path"] + "/" + jsdoc_output["meta"]["filename"]
+    line_no = jsdoc_output["meta"]["lineno"]
+    standard_rep = {"description": jsdoc_output["description"],
+                    "name": jsdoc_output["name"], "filename" : filename, "line_number": line_no}
+    param_names = jsdoc_output["meta"]["code"]["paramnames"]
+    standard_params = []
+    for param_name in param_names:
+        standard_params.append({"name": param_name, "line_number": line_no, "filename": filename})
 
-    return jsdoc_output
+    for param in jsdoc_output['params']:
+        for standard_param in standard_params:
+            if standard_param["name"] == param["name"]:
+                standard_param["description"] = param["description"]
+    standard_rep["params"] = standard_params
+    return standard_rep
+
+    # return jsdoc_output

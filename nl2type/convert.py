@@ -27,8 +27,8 @@ def convert_func_to_df(func_sigs: Dict) -> pd.DataFrame:
     """
     data = _init_dict()
     for func in func_sigs:
-        line_num = _get_line_number(func)
-        filename = _get_filename(func)
+        line_num = func["line_number"]
+        filename = func["filename"]
         params_data = _convert_params_data_to_dict(func, line_num, filename)
         data = _merge_dicts(data, params_data)
 
