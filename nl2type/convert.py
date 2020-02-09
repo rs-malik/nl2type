@@ -23,7 +23,7 @@ def convert_func_to_df(func_sigs: Dict) -> pd.DataFrame:
     Also cleans natural language information for the following columns:
     name, comment, return_param_comment, params.
     :param func_sigs: the json for function signatures, as output by the jsdoc tool
-    :return: a data frame with the columns as given by the COLUMNS list
+    :return: a data_test frame with the columns as given by the COLUMNS list
     """
     data = _init_dict()
     for func in func_sigs:

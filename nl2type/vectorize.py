@@ -16,7 +16,7 @@ features = {
 features_list = ['comment', 'params', 'cleaned_name', 'return_param_comment']
 
 
-def df_to_vec(df: pd.DataFrame, word2vec_language: Word2Vec, word2vec_code: Word2Vec):
+def df_to_vec(df: pd.DataFrame, word2vec_language: Word2Vec, word2vec_code: Word2Vec) -> np.ndarray:
     """
     vectorizes a dataframe to a 3 dimensional matrix
     :param df: the dataframe to vectorize
@@ -32,7 +32,8 @@ def df_to_vec(df: pd.DataFrame, word2vec_language: Word2Vec, word2vec_code: Word
     return data
 
 
-def _vectorize_row(row: Series, w2v_model_code: Word2Vec, w2v_model_language: Word2Vec, separator: np.ndarray):
+def _vectorize_row(row: Series, w2v_model_code: Word2Vec, w2v_model_language: Word2Vec,
+                   separator: np.ndarray) -> np.ndarray:
     data_point = np.zeros((sum(features.values()) + len(features.values()) - 1, WORD_VEC_LENGTH))
     data_point[0] = _vectorize_data_point_type(row)
     data_point[1] = separator
@@ -64,8 +65,8 @@ def _vectorize_row(row: Series, w2v_model_code: Word2Vec, w2v_model_language: Wo
     return data_point
 
 
-def _vectorize_data_point_type(row):
-    datapoint_type = np.zeros( (1, WORD_VEC_LENGTH))
+def _vectorize_data_point_type(row: pd.Series) -> np.ndarray:
+    datapoint_type = np.zeros((1, WORD_VEC_LENGTH))
     if row['datapoint_type'] == 0:
         datapoint_type[0][0] = 1
     else:
@@ -73,7 +74,7 @@ def _vectorize_data_point_type(row):
     return datapoint_type
 
 
-def _vectorize_string(text, feature_length, w2v_model):
+def _vectorize_string(text: str, feature_length: int, w2v_model: Word2Vec) -> np.ndarray:
     text_vec = np.zeros((feature_length, WORD_VEC_LENGTH))
     if text == 'unknown' or len(text) == 0:
         return text_vec
