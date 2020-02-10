@@ -7,7 +7,7 @@ from nl2type import convert
 
 @pytest.fixture
 def json_data():
-    with open("tests/resources/function_data.json") as f:
+    with open("nl2type/tests/resources/function_data.json") as f:
         return json.load(f)
 
 
