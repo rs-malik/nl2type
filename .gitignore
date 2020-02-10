@@ -14,7 +14,7 @@ venv.bak/
 # nodejs
 node_modules
 
-#data
-data
+#data_test
+nl2type/data_test
 nl2type/tests/out/
 nl2type/tests/resources/out

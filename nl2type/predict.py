@@ -2,6 +2,7 @@ from typing import Dict
 import tensorflow as tf
 import numpy as np
 
+
 def init_tf():
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
