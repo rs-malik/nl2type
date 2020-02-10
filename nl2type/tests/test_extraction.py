@@ -1,4 +1,4 @@
-import extract
+from nl2type import extract
 
 
 def test_jsdoc_extracted():
