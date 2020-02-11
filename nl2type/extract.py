@@ -36,6 +36,7 @@ def extract_from_file(file_path: str) -> List[Dict]:
         if is_function_signature(output_dict):
             func_signatures.append(standardize_jdsoc_output(output_dict))
 
+    logger.info("Extracted {} functions".format(len(func_signatures)))
     return func_signatures
 
 
@@ -56,7 +57,6 @@ def standardize_jdsoc_output(jsdoc_output: Dict) -> Dict:
     :return: a standard representation of a function
     """
 
-    # if "undocumented" in jsdoc_output and jsdoc_output["undocumented"]:
     filename = jsdoc_output["meta"]["path"] + "/" + jsdoc_output["meta"]["filename"]
     line_no = jsdoc_output["meta"]["lineno"]
     standard_rep = {"description": "",
@@ -73,4 +73,3 @@ def standardize_jdsoc_output(jsdoc_output: Dict) -> Dict:
     standard_rep["params"] = standard_params
     return standard_rep
 
-    # return jsdoc_output

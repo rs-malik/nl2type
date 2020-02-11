@@ -1,10 +1,8 @@
-import os
 from typing import Dict, List
 
 import pandas as pd
 
 from nl2type import nl_utils as nlu
-
 
 COLUMNS = ['params',
            'return_param_comment',
