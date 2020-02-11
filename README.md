@@ -19,6 +19,7 @@ Install python dependencies
 pip install -r requirements.txt
 ```
 ###Running
+To run:
 ```
 python3 nl2type.py input_file_path output_file_path
 ```
