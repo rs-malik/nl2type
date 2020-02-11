@@ -16,5 +16,5 @@ node_modules
 
 #data_test
 nl2type/data_test
-nl2type/tests/out/
-nl2type/tests/resources/out
+tests/out/
+tests/resources/out

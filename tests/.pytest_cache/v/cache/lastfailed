@@ -1,0 +1,6 @@
+{
+  "test_extraction.py::test_comment_extracted_from_no_jsdoc": true,
+  "test_extraction.py::test_nothing_extracted_from_no_jsdoc": true,
+  "test_extraction.py::test_param_comments_extracted": true,
+  "test_extraction.py::test_return_comment_extracted": true
+}
