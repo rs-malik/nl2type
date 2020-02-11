@@ -9,7 +9,7 @@ python 3.6
 pip
 
 ### Installation
-Install some node dependencies for JsDoc parsing
+Install some node dependencies for JSDoc parsing
 ```
 sudo apt-get install -y nodejs
 npm install -g jsdoc
