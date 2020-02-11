@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 import tensorflow as tf
 import numpy as np
 
@@ -9,11 +9,16 @@ def init_tf():
     return tf.Session(config=config)
 
 
-def predict(model, data, types_map: Dict):
+def predict(model, data: np.ndarray, types_map: Dict) -> List[str]:
+    """
+    :param model: the model to use to make a type predictoin
+    :param data: the feature vectors on which to make the prediction
+    :param types_map: a map which maps the softmax position to the actual type
+    :return: a list of types for each of the data points
+    """
     predictions = model.predict(data)
     reversed_types = reverse_dict(types_map)
-    for prediction in predictions:
-        print(reversed_types[np.argmax(prediction)])
+    return [reversed_types[np.argmax(prediction)] for prediction in predictions]
 
 
 def reverse_dict(types_map: Dict) -> Dict:

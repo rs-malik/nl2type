@@ -33,7 +33,8 @@ def convert_func_to_df(func_sigs: Dict) -> pd.DataFrame:
         data = _merge_dicts(data, params_data)
 
         data['params'].append(' '.join([param['name'] for param in func.get('params', [])]))
-        data['return_param_comment'].append(_get_return_param_comment(func))
+        # data['return_param_comment'].append(_get_return_param_comment(func))
+        data['return_param_comment'].append("")
         data['datapoint_type'].append(0)
         data['line_number'].append(line_num)
         data['filename'].append(filename)
@@ -46,30 +47,16 @@ def convert_func_to_df(func_sigs: Dict) -> pd.DataFrame:
                (nlu.replace_digits_with_space(func['name'])))))
 
         data['cleaned_name'].append(cleaned_name)
-        data['comment'] = func.get('description', '')
+        data['comment'] = ""
 
-        cleaned_comment = nlu.lemmatize_sentence \
-            (nlu.remove_punctuation_and_linebreaks
-             (nlu.lemmatize_sentence
-              (nlu.tokenize
-               (nlu.replace_digits_with_space(func.get('description', ''))))))
-        data['cleaned_comment'].append(cleaned_comment)
+        # cleaned_comment = nlu.lemmatize_sentence \
+        #     (nlu.remove_punctuation_and_linebreaks
+        #      (nlu.lemmatize_sentence
+        #       (nlu.tokenize
+        #        (nlu.replace_digits_with_space(func.get('description', ''))))))
+        data['cleaned_comment'] = ""
 
     return pd.DataFrame.from_dict(data)
-
-
-def _get_line_number(function: Dict) -> int:
-    if "meta" in function and "lineno" in function["meta"]:
-        return int(function["meta"]["lineno"])
-    else:
-        return -1
-
-
-def _get_filename(function: Dict) -> str:
-    if "meta" in function and "filename" in function["meta"] and "path" in function["meta"]:
-        return os.path.join(function['meta']['path'], function["meta"]["filename"])
-    else:
-        return ""
 
 
 def _get_return_param_comment(function: Dict) -> str:
@@ -105,16 +92,16 @@ def _convert_params_data_to_dict(function: Dict, line_num: int, filename: str) -
         params_data.get('name').append(name)
         params_data.get('cleaned_name').append(cleaned_name)
 
-        comment = param.get('description', '')
-        cleaned_comment = nlu.remove_stop_words \
-            (nlu.lemmatize_sentence
-            (nlu.remove_punctuation_and_linebreaks
-             (nlu.lemmatize_sentence
-              (nlu.tokenize
-               (nlu.replace_digits_with_space(comment))))))
+        # comment = ""
+        # cleaned_comment = nlu.remove_stop_words \
+        #     (nlu.lemmatize_sentence
+        #     (nlu.remove_punctuation_and_linebreaks
+        #      (nlu.lemmatize_sentence
+        #       (nlu.tokenize
+        #        (nlu.replace_digits_with_space(comment))))))
 
-        params_data.get('comment').append(comment)
-        params_data.get('cleaned_comment').append(cleaned_comment)
+        params_data.get('comment').append("")
+        params_data.get('cleaned_comment').append("")
 
     return params_data
 

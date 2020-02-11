@@ -59,7 +59,7 @@ def standardize_jdsoc_output(jsdoc_output: Dict) -> Dict:
     # if "undocumented" in jsdoc_output and jsdoc_output["undocumented"]:
     filename = jsdoc_output["meta"]["path"] + "/" + jsdoc_output["meta"]["filename"]
     line_no = jsdoc_output["meta"]["lineno"]
-    standard_rep = {"description": jsdoc_output["description"],
+    standard_rep = {"description": "",
                     "name": jsdoc_output["name"], "filename" : filename, "line_number": line_no}
     param_names = jsdoc_output["meta"]["code"]["paramnames"]
     standard_params = []
@@ -69,7 +69,7 @@ def standardize_jdsoc_output(jsdoc_output: Dict) -> Dict:
     for param in jsdoc_output['params']:
         for standard_param in standard_params:
             if standard_param["name"] == param["name"]:
-                standard_param["description"] = param["description"]
+                standard_param["description"] = ""
     standard_rep["params"] = standard_params
     return standard_rep
 
